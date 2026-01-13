@@ -1,0 +1,9 @@
+{
+  "name": "Cabra Loca Menu",
+  "version": "1.0",
+  "start_url": "https://cabraloca-menu.github.io/screens/screen1.html",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#000000"
+}
