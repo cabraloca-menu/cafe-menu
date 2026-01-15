@@ -27,45 +27,34 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: contain; /* change to cover if needed */
+      object-fit: contain; /* use cover if needed */
       opacity: 0;
-      transition: opacity 900ms ease-in-out;
       background: #000;
     }
 
-    /* 30s cycle:
-       - Slide A visible from 0s to ~15s
-       - Slide B visible from ~15s to 30s
-       (with a soft fade around the switch)
-    */
+    /* 30s cycle: A ~15s then B ~15s (simple, reliable) */
     @keyframes showA {
       0%   { opacity: 1; }
-      47%  { opacity: 1; }
-      53%  { opacity: 0; }
+      49%  { opacity: 1; }
+      50%  { opacity: 0; }
       100% { opacity: 0; }
     }
-
     @keyframes showB {
       0%   { opacity: 0; }
-      47%  { opacity: 0; }
-      53%  { opacity: 1; }
+      49%  { opacity: 0; }
+      50%  { opacity: 1; }
       100% { opacity: 1; }
     }
 
-    #a {
-      animation: showA 30s linear infinite;
-    }
-
-    #b {
-      animation: showB 30s linear infinite;
-    }
+    #a { animation: showA 30s linear infinite; }
+    #b { animation: showB 30s linear infinite; }
   </style>
 </head>
 
 <body>
   <div class="stage">
-    <img id="a" class="slide" src="../images/m3a.png" alt="Menu A" />
-    <img id="b" class="slide" src="../images/m3b.png" alt="Menu B" />
+    <img id="a" class="slide" src="../images/m3a.png?v=1" alt="Menu A" />
+    <img id="b" class="slide" src="../images/m3b.png?v=1" alt="Menu B" />
   </div>
 </body>
 </html>
