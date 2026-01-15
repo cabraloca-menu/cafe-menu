@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cabra Loca – Screen 3</title>
 
+  <!-- Reduce caching as much as possible -->
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
   <style>
     html, body {
       margin: 0;
@@ -14,47 +19,49 @@
       background: #000;
       overflow: hidden;
     }
-
     .stage {
       position: relative;
       width: 100vw;
       height: 100vh;
       background: #000;
+      display: grid;
+      place-items: center;
     }
-
-    .slide {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain; /* use cover if needed */
-      opacity: 0;
+    img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: contain; /* change to cover if you want full-bleed */
       background: #000;
+      opacity: 0;
+      transition: opacity 800ms ease-in-out;
     }
-
-    /* 30s cycle: A ~15s then B ~15s (simple, reliable) */
-    @keyframes showA {
-      0%   { opacity: 1; }
-      49%  { opacity: 1; }
-      50%  { opacity: 0; }
-      100% { opacity: 0; }
+    img.show {
+      opacity: 1;
     }
-    @keyframes showB {
-      0%   { opacity: 0; }
-      49%  { opacity: 0; }
-      50%  { opacity: 1; }
-      100% { opacity: 1; }
-    }
-
-    #a { animation: showA 30s linear infinite; }
-    #b { animation: showB 30s linear infinite; }
   </style>
 </head>
 
 <body>
   <div class="stage">
-    <img id="a" class="slide" src="../images/m3a.png?v=1" alt="Menu A" />
-    <img id="b" class="slide" src="../images/m3b.png?v=1" alt="Menu B" />
+    <img id="slide" alt="Cabra Loca Menu" />
   </div>
+
+  <script>
+    (function () {
+      const key = "cabraloca_screen3_toggle";
+      const prev = localStorage.getItem(key);
+      const next = (prev === "B") ? "A" : "B";
+      localStorage.setItem(key, next);
+
+      const imgPath = (next === "A") ? "../images/m3a.png" : "../images/m3b.png";
+
+      // Cache-bust each load
+      const bust = Date.now();
+
+      const img = document.getElementById("slide");
+      img.onload = () => img.classList.add("show");
+      img.src = imgPath + "?t=" + bust;
+    })();
+  </script>
 </body>
 </html>
