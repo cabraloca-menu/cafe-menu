@@ -18,7 +18,7 @@
       background: #000;
       overflow: hidden;
     }
-    img {
+    #slide {
       width: 100vw;
       height: 100vh;
       object-fit: contain; /* change to cover if needed */
@@ -37,15 +37,26 @@
     ];
 
     function cacheBusted(url) {
-      return url + "?v=" + Date.now();
+      const r = Math.random().toString(16).slice(2);
+      return url + "?v=" + Date.now() + "-" + r;
     }
 
-    // Alternate by 30-second time bucket (A, B, A, B...)
-    const BUCKET_MS = 30000;
-    const bucket = Math.floor(Date.now() / BUCKET_MS);
-    const index = bucket % IMAGES.length;
+    function getNextIndex() {
+      // Guaranteed A/B alternation across reloads
+      const key = "cabraloca_screen3_toggle";
+      try {
+        const last = localStorage.getItem(key);
+        const next = (last === "1") ? 0 : 1;  // toggles 0 <-> 1
+        localStorage.setItem(key, String(next));
+        return next;
+      } catch (e) {
+        // Fallback if storage is blocked (rare)
+        return (Math.floor(Date.now() / 30000) % 2);
+      }
+    }
 
-    document.getElementById("slide").src = cacheBusted(IMAGES[index]);
+    const idx = getNextIndex();
+    document.getElementById("slide").src = cacheBusted(IMAGES[idx]);
   </script>
 </body>
 </html>
